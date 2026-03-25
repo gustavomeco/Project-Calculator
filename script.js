@@ -88,3 +88,14 @@ function calculateResult() {
 }
 
 btn.addEventListener("click", calculator);
+document.addEventListener('keydown', (event) => {
+    if (event.code === "Space") {
+        event.preventDefault()
+            if(operator === "") {
+                n1 = n1.slice(0,-1);
+            } else {
+                n2 = n2.slice(0,-1);
+            }
+    }
+    num.textContent = operator === "" ? n1 : n2;
+})
