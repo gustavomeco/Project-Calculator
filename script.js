@@ -64,12 +64,17 @@ function calculator(event) {
         calculated = false
     };
      result.appendChild(num);
+
+    const currentNum = operator === "" ? n1 : n2;
+    point.disabled = currentNum.includes(".");
+
 }
 
 function clear(){
     result.innerText = "";
     n1 = "",n2 = "",operator = "";
     num.textContent = "";
+    point.disabled = false;
 }
 
 function calculateResult() {
