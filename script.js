@@ -30,7 +30,7 @@ function operate(a,b,operator) {
         case `x`:
             return multiply(a,b);
         case `/`:
-            return divide(a,b);            
+            return divide(a,b);         
     }
 
 };
@@ -73,9 +73,13 @@ function clear(){
 }
 
 function calculateResult() {
-    num.textContent = Math.round(operate(parseFloat(n1),parseFloat(n2),operator) * 100) / 100;
+    if (n2 == 0 && operator === "/") {
+        num.innerText = "error lil bro";
+    } else {
+        num.textContent = Math.round(operate(parseFloat(n1),parseFloat(n2),operator) * 100) / 100;
+    }
+ 
     n = num.innerText;
-    console.log("n1:", n1, "n2:", n2, "operator:", operator);
 }
 
 btn.addEventListener("click", calculator);
