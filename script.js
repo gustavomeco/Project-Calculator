@@ -88,7 +88,31 @@ function calculateResult() {
 }
 
 btn.addEventListener("click", calculator);
+
+
 document.addEventListener('keydown', (event) => {
+    if (event.code === "Enter" || event.key === "=") {
+        event.preventDefault();
+        calculateResult()
+        calculated = true;
+    } else if(["0","1","2","3","4","5","6","7","8","9","."].includes(event.key)) {
+        if (calculated === true) {n1 = "",n2 = "",operator = ""};
+        if(operator === "") {
+            n1 += event.key;
+        } else {
+            n2 += event.key;
+        } 
+        num.textContent = operator === "" ? n1 : n2;
+        calculated = false
+    } else if (["+", "-", "x", "/"].includes(event.key)) {
+        if ( n1 != "" && n2 != "" && operator != "") {
+            calculateResult()
+            n1 = n,n2 = "",operator = "";
+        } else if (calculated === true) {n1 = n,n2 = "",operator = ""};  
+        operator = event.key;
+        num.textContent = operator;
+        calculated = false
+    };
     if (event.code === "Space") {
         event.preventDefault()
             if(operator === "") {
@@ -96,6 +120,9 @@ document.addEventListener('keydown', (event) => {
             } else {
                 n2 = n2.slice(0,-1);
             }
+        num.textContent = operator === "" ? n1 : n2
     }
-    num.textContent = operator === "" ? n1 : n2;
-})
+    result.appendChild(num);
+}) 
+
+   // ver alguma forma de utilizar o calculator com todas as logicas aqui pro teclado , onde devo chamar essa funcao
