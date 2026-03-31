@@ -37,37 +37,8 @@ function operate(a,b,operator) {
 
 
 function calculator(event) {
-    if (event.target.innerText === "="){
-        calculateResult()
-        calculated = true;
-    } else if (event.target.parentElement.className === "numbers" ) {
-        if (calculated === true) {n1 = "",n2 = "",operator = ""};
-        if (operator === "") {
-            n1 += event.target.innerText;
-            num.textContent = n1;    
-        } else {
-            n2 += event.target.innerText;
-            num.textContent = n2; 
-        }
-        calculated = false
-    } else if(["+", "-", "x", "/"].includes(event.target.innerText)) {
-        if ( n1 != "" && n2 != "" && operator != "") {
-        calculateResult()
-        n1 = n,n2 = "",operator = "";
-        } else if (calculated === true) {n1 = n,n2 = "",operator = ""};  
-        result.innerText = "";
-        operator = event.target.innerText;
-        num.textContent = operator;
-        calculated = false
-    } else if(event.target.id === "cancel") {
-        clear();
-        calculated = false
-    };
-     result.appendChild(num);
-
-    const currentNum = operator === "" ? n1 : n2;
-    point.disabled = currentNum.includes(".");
-
+    const value = event.target.innerText;
+    calculatorLogic(value);
 }
 
 function clear(){
@@ -91,30 +62,44 @@ btn.addEventListener("click", calculator);
 
 
 document.addEventListener('keydown', (event) => {
-    if (event.code === "Enter" || event.key === "=") {
-        event.preventDefault();
+    const value = event.key;
+    event.preventDefault();
+    calculatorLogic(value);
+}) 
+
+function calculatorLogic(call) {
+      if (call === "=" || call === "Enter"){
         calculateResult()
         calculated = true;
-    } else if(["0","1","2","3","4","5","6","7","8","9","."].includes(event.key)) {
+    } else if (["0","1","2","3","4","5","6","7","8","9","."].includes(call)) {
         if (calculated === true) {n1 = "",n2 = "",operator = ""};
-        if(operator === "") {
-            n1 += event.key;
+        if (operator === "") {
+            n1 += call;
+            num.textContent = n1;    
         } else {
-            n2 += event.key;
-        } 
-        num.textContent = operator === "" ? n1 : n2;
+            n2 += call;
+            num.textContent = n2; 
+        }
         calculated = false
-    } else if (["+", "-", "x", "/"].includes(event.key)) {
+    } else if(["+", "-", "x", "/"].includes(call)) {
         if ( n1 != "" && n2 != "" && operator != "") {
-            calculateResult()
-            n1 = n,n2 = "",operator = "";
+        calculateResult()
+        n1 = n,n2 = "",operator = "";
         } else if (calculated === true) {n1 = n,n2 = "",operator = ""};  
-        operator = event.key;
+        operator = call;
+        result.innerText = "";
         num.textContent = operator;
         calculated = false
+    } else if(call === "CE") {
+        clear();
+        calculated = false
     };
-    if (event.code === "Space") {
-        event.preventDefault()
+     result.appendChild(num);
+
+    const currentNum = operator === "" ? n1 : n2;
+    point.disabled = currentNum.includes(".");
+
+    if (call === " " || call === "Backspace") {
             if(operator === "") {
                 n1 = n1.slice(0,-1);
             } else {
@@ -122,7 +107,4 @@ document.addEventListener('keydown', (event) => {
             }
         num.textContent = operator === "" ? n1 : n2
     }
-    result.appendChild(num);
-}) 
-
-   // ver alguma forma de utilizar o calculator com todas as logicas aqui pro teclado , onde devo chamar essa funcao
+}
